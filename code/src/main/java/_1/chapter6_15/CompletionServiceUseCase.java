@@ -16,14 +16,10 @@ public class CompletionServiceUseCase {
   public void execute() {
     int init = taskSize;
     while (init-- > 0) {
-      completionService.submit(new SleepCallable(5000));
+      completionService.submit(new SleepCallable(3000));
     }
-
-    init = taskSize;
     try {
-      Future<String> result;
       int r = taskSize;
-
       while (r-- > 0) {
         System.out.println(completionService.take().get());
       }
@@ -36,9 +32,8 @@ public class CompletionServiceUseCase {
 
   }
 
-  static class SleepCallable<String> implements Callable<java.lang.String> {
+  static class SleepCallable implements Callable<java.lang.String> {
     private long sleep;
-    private String taskName;
 
     public SleepCallable(long sleep) {
       this.sleep = sleep;
@@ -47,8 +42,8 @@ public class CompletionServiceUseCase {
     @Override
     public java.lang.String call() throws Exception {
       Thread.sleep(sleep);
-      //throw new RuntimeException();
-       return Thread.currentThread().getName() + ":Done!";
+      // throw new RuntimeException();
+      return Thread.currentThread().getName() + ":Done!";
     }
   }
 
