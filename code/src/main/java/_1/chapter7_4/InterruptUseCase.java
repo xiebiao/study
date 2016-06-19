@@ -4,6 +4,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
+ * 线程最好的停止方式是中断
+ * 
  * @author bjxieb
  * @date 6/4/16
  */
@@ -25,12 +27,12 @@ public class InterruptUseCase {
     @Override
     public void run() {
       while (Thread.currentThread().isInterrupted() == false) {
-//        try {
-//          Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//          e.printStackTrace();
-//          return;
-//        }
+        // try {
+        // Thread.sleep(1000);
+        // } catch (InterruptedException e) {
+        // e.printStackTrace();
+        // return;
+        // }
         System.out.println(Thread.currentThread().getName() + ": working!");
       }
     }
@@ -39,11 +41,11 @@ public class InterruptUseCase {
   public static void main(String[] args) {
     InterruptUseCase interruptUseCase = new InterruptUseCase();
     interruptUseCase.start();
-      try {
-          Thread.sleep(3000);
-      } catch (InterruptedException e) {
-          e.printStackTrace();
-      }
-      interruptUseCase.shutdown();
+    try {
+      Thread.sleep(3000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    interruptUseCase.shutdown();
   }
 }
