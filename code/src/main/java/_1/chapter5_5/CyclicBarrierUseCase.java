@@ -2,6 +2,7 @@ package _1.chapter5_5;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -59,6 +60,39 @@ public class CyclicBarrierUseCase {
     workers.add(new CyclicBarrierWorker(this, 600));
     for (CyclicBarrierWorker worker : workers) {
       executor.execute(worker);
+    }
+  }
+
+  static class CyclicBarrierWorker extends Thread {
+    private CyclicBarrierUseCase cylicBarrier;
+    private long useTime;
+
+    public CyclicBarrierWorker(CyclicBarrierUseCase cyclicBarrier, long useTime) {
+      this.cylicBarrier = cyclicBarrier;
+      this.useTime = useTime;
+    }
+
+    /**
+     * 实现所有线程要么同时做加，要么同时做减
+     */
+    @Override
+    public void run() {
+      while (true) {
+        try {
+          Thread.sleep(useTime);
+          if (this.cylicBarrier.isAdd()) {
+            this.cylicBarrier.incr();
+          } else {
+            this.cylicBarrier.decr();
+          }
+          this.cylicBarrier.getCyclicBarrier().await();// 等待其他线程执行到达，直到到达线程数等于{@link
+          // Seamphore#parties}
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        } catch (BrokenBarrierException e) {
+          e.printStackTrace();
+        }
+      }
     }
   }
 
