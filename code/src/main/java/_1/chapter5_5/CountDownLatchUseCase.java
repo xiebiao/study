@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 /**
  * 使用{@link CountDownLatch} 模拟闸门，用于控制线程同时开始执行
  * 
- * @see {@link PhaserCountDownLatchUseCase}
+ * @see {@link PhaserUseCase1}
  * @author xiebiao
  * @date 5/9/16
  */
