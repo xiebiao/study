@@ -6,50 +6,51 @@ import java.util.concurrent.Phaser;
 
 /**
  * CountDownLatch升级版
- * 
+ *
  * @author bjxieb
  * @date 6/19/16
  */
 public class PhaserCountDownLatchUseCase {
-  private Phaser phaser = new Phaser(1);
-  private ExecutorService executor;
+    private Phaser phaser = new Phaser(1);
+    private ExecutorService executor;
 
-  public void start() {
-    executor = Executors.newFixedThreadPool(3);
-    for (int i = 0; i < 3; i++) {
-      executor.submit(new PhaserThread(phaser));
-    }
-    // try {
-    // Thread.sleep(100);
-    // } catch (InterruptedException e) {
-    // e.printStackTrace();
-    // }
-    phaser.arriveAndDeregister();
-  }
-
-  public void shutdown() {
-     // phaser.forceTermination();
-    executor.shutdownNow();
-  }
-
-  class PhaserThread extends Thread {
-    private Phaser phaser;
-
-    public PhaserThread(Phaser phaser) {
-      this.phaser = phaser;
+    public void start() {
+        executor = Executors.newFixedThreadPool(3);
+        for (int i = 0; i < 3; i++) {
+            phaser.register();
+            executor.submit(new PhaserThread(phaser));
+        }
+        // try {
+        // Thread.sleep(100);
+        // } catch (InterruptedException e) {
+        // e.printStackTrace();
+        // }
+        phaser.arriveAndDeregister();
     }
 
-    @Override
-    public void run() {
-      phaser.register();
-      System.out.println("running");
-      phaser.arriveAndAwaitAdvance();
+    public void shutdown() {
+        // phaser.forceTermination();
+        executor.shutdownNow();
     }
-  }
 
-  public static void main(String[] args) {
-    PhaserCountDownLatchUseCase phaserUseCase = new PhaserCountDownLatchUseCase();
-    phaserUseCase.start();
-    phaserUseCase.shutdown();
-  }
+    class PhaserThread extends Thread {
+        private Phaser phaser;
+
+        public PhaserThread(Phaser phaser) {
+            this.phaser = phaser;
+        }
+
+        @Override
+        public void run() {
+
+            phaser.arriveAndAwaitAdvance();
+            System.out.println("running");
+        }
+    }
+
+    public static void main(String[] args) {
+        PhaserCountDownLatchUseCase phaserUseCase = new PhaserCountDownLatchUseCase();
+        phaserUseCase.start();
+        phaserUseCase.shutdown();
+    }
 }
