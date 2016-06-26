@@ -25,3 +25,6 @@ Java将非volatile的long和double变量分为两个32位操作，在多线程�
 逸出：是指将对象自己整个暴露给别人，特别是在构造方法中发布对象，将隐式的将对象this引用发布了出去，然后对方拿到的却是一个不完整的对象引用
 
 ### CAS
+
+### AQS
+http://gee.cs.oswego.edu/dl/papers/aqs.pdf
