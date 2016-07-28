@@ -1,6 +1,8 @@
 package java_puzzlers;
 
 /**
+ * <code>Integer</code>解包时处理int的范围是-128,127之间
+ *
  * @author xiebiao
  * @date 7/28/16
  */
