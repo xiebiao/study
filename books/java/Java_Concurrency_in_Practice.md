@@ -1,6 +1,8 @@
 Java Concurrency in Practice
 ===============================
 
+[购买链接](http://item.jd.com/10922250.html)
+
 Java并发编程实战
 
 ## 1.基础知识
